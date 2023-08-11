@@ -1,0 +1,4 @@
+<select class="form-control" id="">
+    <option value="" disabled selected>-- Seleccionar --</option>
+    <option *ngFor="let p of pokemon" [value]="p.name">{{p.name}}</option>
+</select>
