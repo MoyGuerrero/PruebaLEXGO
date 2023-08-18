@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Info, Move } from 'src/app/interfaces/information.interface';
 import { Pokemon } from 'src/app/interfaces/pokemon.interfaces';
 import { PruebaService } from 'src/app/services/prueba.service';
 
@@ -10,6 +11,14 @@ import { PruebaService } from 'src/app/services/prueba.service';
 export class InicioComponent implements OnInit {
 
   pokemon: Pokemon[] = [];
+  information: string = '';
+  url: string = '';
+  seleccionado: string = '';
+  name: string = '';
+  imagen: string = '';
+  base: number = 0;
+  ocultar:boolean = false;
+  move: Move[] = [];
 
   constructor(private pruebaServices: PruebaService) { }
   ngOnInit(): void {
@@ -21,14 +30,27 @@ export class InicioComponent implements OnInit {
     this.pruebaServices.getObtenerPokemons().subscribe({
       next: pokemon => {
         this.pokemon = pokemon.results;
-        console.log(this.pokemon);
-
+        // console.log(this.pokemon);
+        console.log(pokemon);
       },
       error: error => console.error(error)
-
     });
   }
 
+  buscarHabilidades() {
+    this.url = this.seleccionado
+    this.pruebaServices.getHabilidades(this.seleccionado).subscribe({
+      next: resultado => {
+        console.log(resultado);
+        this.name = resultado.name
+        this.imagen = resultado.sprites.back_default;
+        this.base = resultado.base_experience;
+        this.move = resultado.moves.slice(0, 4)
+        console.log(this.move);
+        
+      },
+      error: err => console.error(err)
 
-
+    });
+  }
 }
