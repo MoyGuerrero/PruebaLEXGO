@@ -17,7 +17,7 @@ export class InicioComponent implements OnInit {
   name: string = '';
   imagen: string = '';
   base: number = 0;
-  ocultar:boolean = false;
+  ocultar: boolean = true;
   move: Move[] = [];
 
   constructor(private pruebaServices: PruebaService) { }
@@ -31,7 +31,6 @@ export class InicioComponent implements OnInit {
       next: pokemon => {
         this.pokemon = pokemon.results;
         // console.log(this.pokemon);
-        console.log(pokemon);
       },
       error: error => console.error(error)
     });
@@ -41,13 +40,13 @@ export class InicioComponent implements OnInit {
     this.url = this.seleccionado
     this.pruebaServices.getHabilidades(this.seleccionado).subscribe({
       next: resultado => {
-        console.log(resultado);
+        this.ocultar = false;
         this.name = resultado.name
         this.imagen = resultado.sprites.back_default;
         this.base = resultado.base_experience;
         this.move = resultado.moves.slice(0, 4)
         console.log(this.move);
-        
+
       },
       error: err => console.error(err)
 
